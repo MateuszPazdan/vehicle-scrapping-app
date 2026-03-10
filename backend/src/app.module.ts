@@ -14,10 +14,28 @@ import { StoragesModule } from './storages/storages.module';
 import { TransactionsController } from './transactions/transactions.controller';
 import { TransactionsService } from './transactions/transactions.service';
 import { TransactionsModule } from './transactions/transactions.module';
+import { MetricsModule } from './metrics/metrics.module';
+import { MetricsController } from './metrics/metrics.controller';
 
 @Module({
-  imports: [AuthModule, PrismaModule, UsersModule, OwnersModule, VehiclesModule, WastesModule, StoragesModule, TransactionsModule],
-  controllers: [OwnersController, WastesController, StoragesController, TransactionsController],
+  imports: [
+    AuthModule,
+    PrismaModule,
+    UsersModule,
+    OwnersModule,
+    VehiclesModule,
+    WastesModule,
+    StoragesModule,
+    TransactionsModule,
+    MetricsModule,
+  ],
+  controllers: [
+    OwnersController,
+    WastesController,
+    StoragesController,
+    TransactionsController,
+    MetricsController,
+  ],
   providers: [WastesService, StoragesService, TransactionsService],
 })
 export class AppModule {}
