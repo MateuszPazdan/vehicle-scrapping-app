@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { AuthModule } from './auth/auth.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { UsersModule } from './users/users.module';
@@ -14,8 +14,8 @@ import { StoragesModule } from './storages/storages.module';
 import { TransactionsController } from './transactions/transactions.controller';
 import { TransactionsService } from './transactions/transactions.service';
 import { TransactionsModule } from './transactions/transactions.module';
-import { MetricsModule } from './metrics/metrics.module';
-import { MetricsController } from './metrics/metrics.controller';
+import { MetricsModule } from './monitoring/metrics.module';
+import { MetricsController } from './monitoring/metrics.controller';
 
 @Module({
   imports: [
