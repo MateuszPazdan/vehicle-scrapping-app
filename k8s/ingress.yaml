@@ -23,6 +23,22 @@ spec:
                 port:
                   number: 80
 
+          - path: /grafana
+            pathType: Prefix
+            backend:
+              service:
+                name: grafana-service
+                port:
+                  number: 3000
+                  
+          - path: /prometheus
+            pathType: Prefix
+            backend:
+              service:
+                name: prometheus-service
+                port:
+                  number: 9090
+
           - path: /
             pathType: Prefix
             backend:
@@ -30,3 +46,5 @@ spec:
                 name: frontend-service
                 port:
                   number: 3000
+
+
