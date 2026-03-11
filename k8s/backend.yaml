@@ -1,16 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: vehicle-backend
+  name: backend-deployment
+  labels:
+    app: backend
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: vehicle-backend
+      app: backend
   template:
     metadata:
       labels:
-        app: vehicle-backend
+        app: backend
     spec:
       containers:
       - name: backend
@@ -25,3 +27,16 @@ spec:
           limits:
             cpu: "500m"
             memory: "512Mi"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-service
+spec:
+  selector:
+    app: backend
+  ports:
+  - port: 80
+    targetPort: 8000
+  type: ClusterIP
