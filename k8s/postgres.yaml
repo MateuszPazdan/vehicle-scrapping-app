@@ -19,13 +19,9 @@ spec:
           image: postgres:15
           ports:
             - containerPort: 5432
-          env:
-            - name: POSTGRES_DB
-              value: postgres
-            - name: POSTGRES_USER
-              value: db_admin
-            - name: POSTGRES_PASSWORD
-              value: coi2Luh5G49MERvHZr9YzrVfei1mmWrDg5IOzFKivCCIoA0YkvL7TT9isL9dQuIX
+          envFrom:
+            - secretRef:
+                name: app-secret
 
 ---
 apiVersion: v1

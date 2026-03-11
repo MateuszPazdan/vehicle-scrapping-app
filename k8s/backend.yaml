@@ -15,18 +15,21 @@ spec:
         app: backend
     spec:
       containers:
-      - name: backend
-        image: vehicle-backend/backend:latest
-        imagePullPolicy: Never
-        ports:
-        - containerPort: 8000
-        resources:
-          requests:
-            cpu: "100m"
-            memory: "128Mi"
-          limits:
-            cpu: "500m"
-            memory: "512Mi"
+        - name: backend
+          image: vehicle-backend/backend:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - secretRef:
+                name: app-secret
+          resources:
+            requests:
+              cpu: '100m'
+              memory: '128Mi'
+            limits:
+              cpu: '500m'
+              memory: '512Mi'
 
 ---
 apiVersion: v1
@@ -37,6 +40,6 @@ spec:
   selector:
     app: backend
   ports:
-  - port: 80
-    targetPort: 8000
+    - port: 80
+      targetPort: 8000
   type: ClusterIP

@@ -1,8 +1,8 @@
 node_modules
-test
-.gitignore
-.git
-.prettierrc
-Dockerfile
-README.md
 dist
+.git
+.gitignore
+Dockerfile
+docker-compose.yml
+.env
+coverage
