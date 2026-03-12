@@ -22,7 +22,13 @@ spec:
           envFrom:
             - secretRef:
                 name: app-secret
-
+          volumeMounts:
+          - name: postgresql-data
+            mountPath: /var/lib/postgresql/data
+      volumes:
+        - name: postgresql-data
+          hostPath:
+            path: /host-data/data
 ---
 apiVersion: v1
 kind: Service
