@@ -1,0 +1,54 @@
+name: Deploy to AKS
+
+on:
+  workflow_run:
+    workflows: ["Build Project"]
+    types:
+      - completed
+
+env:
+  REGISTRY: vehicleappregistry.azurecr.io
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Azure login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Login to ACR
+        run: |
+          az acr login --name vehicleappregistry
+
+      - name: Build backend image
+        run: |
+          docker build -t $REGISTRY/backend:${{ github.sha }} ./backend
+          docker push $REGISTRY/backend:${{ github.sha }}
+
+      - name: Build frontend image
+        run: |
+          docker build -t $REGISTRY/frontend:${{ github.sha }} ./frontend
+          docker push $REGISTRY/frontend:${{ github.sha }}
+
+      - name: Get AKS credentials
+        run: |
+          az aks get-credentials \
+            --resource-group vehicle-app-rg \
+            --name vehicle-app-cluster
+
+      - name: Deploy new backend
+        run: |
+          kubectl set image deployment/backend-deployment backend=$REGISTRY/backend:${{ github.sha }}
+
+      - name: Deploy new frontend
+        run: |
+          kubectl set image deployment/frontend-deployment frontend=$REGISTRY/frontend:${{ github.sha }}
+
+      - name: Check pods
+        run: kubectl get pods
