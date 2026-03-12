@@ -16,8 +16,7 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: vehicle-frontend/frontend:latest
-        imagePullPolicy: Never
+        image: vehicleappregistry.azurecr.io/frontend:1.0
         ports:
         - containerPort: 3000
 

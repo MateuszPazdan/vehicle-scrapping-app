@@ -16,8 +16,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: vehicle-backend/backend:latest
-          imagePullPolicy: Never
+          image: vehicleappregistry.azurecr.io/backend:1.1
           ports:
             - containerPort: 8000
           envFrom:
