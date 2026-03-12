@@ -41,6 +41,12 @@ jobs:
           az aks get-credentials \
             --resource-group vehicle-app-rg \
             --name vehicle-app-cluster
+        
+      - name: Apply Kubernetes manifests
+        run: |
+          kubectl apply -f k8s/
+          kubectl apply -f k8s/monitoring/
+
 
       - name: Deploy new backend
         run: |

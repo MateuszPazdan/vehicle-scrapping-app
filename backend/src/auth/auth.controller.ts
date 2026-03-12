@@ -36,7 +36,7 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @ApiResponse({
     status: HttpStatus.OK,
-    description: 'User successfully logged in.',
+    description: 'User successfully logged in. TEST CI/CD.',
   })
   @ApiResponse({
     status: HttpStatus.UNAUTHORIZED,

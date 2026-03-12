@@ -57,7 +57,7 @@ function LoginForm() {
 			>
 				<div className='sm:w-[400px] md:w-[500px] w-full px-5 sm:px-10 pb-6 pt-5 bg-white sm:shadow-myShadow shadow-shadowBlack rounded-xl gap-8 flex flex-col items-center'>
 					<div className='relative'>
-						<p className='pb-5 text-3xl mt-4'>Logowanie</p>
+						<p className='pb-5 text-3xl mt-4'>Logowanie - test CI/CD</p>
 					</div>
 
 					<TextInput
