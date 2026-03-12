@@ -4,8 +4,13 @@ metadata:
   name: vehicle-ingress
 spec:
   ingressClassName: nginx
+  tls:
+  - hosts:
+    - vsapp.pl
+    secretName: vsapp-tls
   rules:
-    - http:
+    - host: vsapp.pl
+      http:
         paths:
           - path: /api
             pathType: Prefix
