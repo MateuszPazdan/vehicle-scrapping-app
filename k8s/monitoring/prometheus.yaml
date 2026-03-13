@@ -5,41 +5,86 @@ metadata:
 data:
   prometheus.yml: |
     global:
-      scrape_interval: 5s
+      scrape_interval: 10s
 
     scrape_configs:
-      - job_name: 'backend'
+
+      - job_name: "backend"
+
+        kubernetes_sd_configs:
+          - role: pod
+
+        relabel_configs:
+
+          - source_labels: [__meta_kubernetes_pod_label_app]
+            action: keep
+            regex: backend
+
+          - source_labels: [__meta_kubernetes_pod_container_port_number]
+            action: keep
+            regex: "8000"
+
         metrics_path: /api/metrics
+
+      - job_name: "prometheus"
         static_configs:
-          - targets: ['backend-service:80']
+          - targets: ["localhost:9090"]
+
 ---
 
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: prometheus
 spec:
+  serviceName: prometheus-service
   replicas: 1
+
   selector:
     matchLabels:
       app: prometheus
+
   template:
     metadata:
       labels:
         app: prometheus
+
     spec:
+      securityContext:
+        fsGroup: 65534
+
       containers:
-      - name: prometheus
-        image: prom/prometheus
-        ports:
-        - containerPort: 9090
-        volumeMounts:
-        - name: config-volume
-          mountPath: /etc/prometheus
+        - name: prometheus
+          image: prom/prometheus:v2.52.0
+
+          args:
+            - "--config.file=/etc/prometheus/prometheus.yml"
+            - "--storage.tsdb.path=/prometheus"
+
+          ports:
+            - containerPort: 9090
+
+          volumeMounts:
+            - name: config-volume
+              mountPath: /etc/prometheus
+
+            - name: prometheus-storage
+              mountPath: /prometheus
+
       volumes:
-      - name: config-volume
-        configMap:
-          name: prometheus-config
+        - name: config-volume
+          configMap:
+            name: prometheus-config
+
+  volumeClaimTemplates:
+    - metadata:
+        name: prometheus-storage
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 5Gi
 
 ---
 
@@ -51,6 +96,6 @@ spec:
   selector:
     app: prometheus
   ports:
-  - port: 9090
-    targetPort: 9090
+    - port: 9090
+      targetPort: 9090
   type: ClusterIP

@@ -19,6 +19,7 @@ spec:
                 name: backend-service
                 port:
                   number: 80
+                  
           - path: /docs
             pathType: Prefix
             backend:
@@ -35,14 +36,6 @@ spec:
                 port:
                   number: 3000
                   
-          - path: /prometheus
-            pathType: Prefix
-            backend:
-              service:
-                name: prometheus-service
-                port:
-                  number: 9090
-
           - path: /
             pathType: Prefix
             backend:

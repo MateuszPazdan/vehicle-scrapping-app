@@ -24,11 +24,11 @@ spec:
                 name: app-secret
           resources:
             requests:
-              cpu: '100m'
-              memory: '128Mi'
+              cpu: "100m"
+              memory: "256Mi"
             limits:
-              cpu: '500m'
-              memory: '512Mi'
+              cpu: "400m"
+              memory: "512Mi"
 
 ---
 apiVersion: v1
