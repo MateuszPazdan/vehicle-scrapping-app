@@ -16,6 +16,7 @@ import { TransactionsService } from './transactions/transactions.service';
 import { TransactionsModule } from './transactions/transactions.module';
 import { MetricsModule } from './monitoring/metrics.module';
 import { MetricsController } from './monitoring/metrics.controller';
+import { MetricsMiddleware } from './monitoring/metrics.middleware';
 
 @Module({
   imports: [
@@ -38,4 +39,8 @@ import { MetricsController } from './monitoring/metrics.controller';
   ],
   providers: [WastesService, StoragesService, TransactionsService],
 })
-export class AppModule {}
+export class AppModule implements NestModule{
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(MetricsMiddleware).forRoutes('*');
+  }
+}

@@ -1,3 +1,4 @@
+# BUILD STAGE
 FROM node:22-alpine AS builder
 
 WORKDIR /app
@@ -12,7 +13,7 @@ ENV NEXT_PUBLIC_API_KEY=$NEXT_PUBLIC_API_KEY
 
 RUN npm run build
 
-
+# PRODUCTION STAGE
 FROM node:22-alpine
 
 WORKDIR /app

@@ -2,7 +2,8 @@ import { Controller, Get, Res } from '@nestjs/common';
 import { Response } from 'express';
 import * as client from 'prom-client';
 
-const register = new client.Registry();
+export const register = new client.Registry();
+
 client.collectDefaultMetrics({ register });
 
 @Controller('metrics')
